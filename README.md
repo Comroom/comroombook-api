@@ -4,8 +4,8 @@
 - 김영호
 
 #### 필요 라이브러리
-- express
-- nedb
+- express : REST API Framework
+- nedb : Simple Database
 
 #### REST API 기능 설명
 - 로그인/회원가입
