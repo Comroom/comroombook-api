@@ -8,37 +8,58 @@
 - nedb
 
 #### REST API 기능 설명
-##### 기능 이름 (router)
 - 로그인/회원가입
-    - 회원정보 user (/user)
+    - DB 회원정보 user 
         - 이름
         - 이메일주소 
         - 비밀번호 
+        - 참가된 채팅
+    - 회원가입 (/user/signup) POST
+    - 로그인 (/user/login) POST
+    
 - 동아리 전체 시간표
     - https://github.com/alamkanak/Android-Week-View
-    - DB time (/time)
+    - DB time 
         - 시작시간
         - 종료시간
         - 유저정보
         - 제목
         - 세부내용
+    - 시간표 시간 가져오기 (/time) GET
+        - /time?start=날짜&end=날짜
+    - 시간표 시간 입력하기 (/time) POST
+        - Appication/Json
+        - { "start" : 날짜, "end" : 날짜, "userid" : 유저아이디, "title" : 제목, "detail" : 세부내용 }
 - 그룹 채팅방 
-    - DB chatlist (/chat/list)
+    - DB chatlist  
         - 생성된 날짜
         - 처음만든 사람
         - 이름
         - 인원[]
-    - DB chatmessage (/chat)
+    - 그룹만들기 (/chat/list) POST
+        - Appication/Json
+        - { "userid" : 유저아이디, "name" : 그룹네임 }
+    - 그룹정보가져오기 (/chat/list/:groupid) GET
+        
+    - DB chatmessage
         - user_id
         - name
         - group_id
         - message
         - date
-    - Socket.io 이벤트형식
-    - …. 등등
+        
+    - 채팅입력하기 (/chat/:groupid) POST
+        - Appication/Json
+        - { "userid" : 유저아이디, "mesaage" : 채팅내용 }
+    
+    - 채팅가져오기 (/chat/:groupid) GET
+
 - 개인메시지 : 쪽지기능
-    - DB message (/message)
+    - DB message (/message) 
         - 보낸 사람
         - 받는 사람
         - 메세지
+    - 메세지 보내기 (/message/:userid) POST
+    - 메세지 얻어오기 (/message/:userid) GET
+
 - 그룹 초대하는 기능 ( 카톡 API / 메일초대)
