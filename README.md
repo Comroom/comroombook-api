@@ -4,6 +4,7 @@
 - nedb
 
 #### REST API 기능 설명
+##### 기능 이름 (router)
 - 로그인/회원가입
     - 회원정보 user (/user)
         - 이름
@@ -11,7 +12,7 @@
         - 비밀번호 
 - 동아리 전체 시간표
     - https://github.com/alamkanak/Android-Week-View
-    - DB (/time)
+    - DB time (/time)
         - 시작시간
         - 종료시간
         - 유저정보
