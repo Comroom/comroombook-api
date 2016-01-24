@@ -3,7 +3,8 @@
 - 최인호
 - 김영호
 
-#### 필요 라이브러리
+#### 필요 프레임워크/라이브러리
+- Node.js
 - express : REST API Framework
 - nedb : Simple Database
 
@@ -52,7 +53,7 @@
         - { "userid" : 유저아이디, "mesaage" : 채팅내용 }
     - 채팅가져오기 (/chat/:groupid) GET
 - 개인메시지 : 쪽지기능
-    - DB message (/message) 
+    - DB message  
         - 보낸 사람
         - 받는 사람
         - 메세지
