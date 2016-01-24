@@ -60,6 +60,8 @@
         - 받는 사람
         - 메세지
     - 메세지 보내기 (/message/:userid) POST
+        - Application/Json
+        - { "message" : 메세지내용 }
     - 메세지 얻어오기 (/message/:userid) GET
 
 - 그룹 초대하는 기능 ( 카톡 API / 메일초대)
