@@ -13,8 +13,10 @@
         - 이름
         - 이메일주소 
         - 비밀번호 
-        - 참가된 채팅
+        - 참가 채팅리스트
     - 회원가입 (/user/signup) POST
+        - Application/Json
+        - { "name" : 이름, "email": 이메일주소, "password" : 비밀번호 }
     - 로그인 (/user/login) POST
 - 동아리 전체 시간표
     - https://github.com/alamkanak/Android-Week-View
@@ -40,11 +42,11 @@
         - { "userid" : 유저아이디, "name" : 그룹네임 }
     - 그룹정보가져오기 (/chat/list/:groupid) GET
     - DB chatmessage
-        - user_id
-        - name
-        - group_id
-        - message
-        - date
+        - 유저아이디
+        - 이름
+        - 그룹아이디
+        - 메세지(채팅내용)
+        - 날짜
     - 채팅입력하기 (/chat/:groupid) POST
         - Appication/Json
         - { "userid" : 유저아이디, "mesaage" : 채팅내용 }
