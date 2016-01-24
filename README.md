@@ -1,7 +1,11 @@
 ### 컴실북 백엔드 서버
+#### 필요 라이브러리
+- express
+- nedb
 
+#### REST API 기능 설명
 - 로그인/회원가입
-    - 회원정보 (/user)
+    - 회원정보 user (/user)
         - 이름
         - 이메일주소 
         - 비밀번호 
@@ -14,7 +18,12 @@
         - 제목
         - 세부내용
 - 그룹 채팅방 
-    - DB (/chat)
+    - DB chatlist (/chat/list)
+        - 생성된 날짜
+        - 처음만든 사람
+        - 이름
+        - 인원[]
+    - DB chatmessage (/chat)
         - user_id
         - name
         - group_id
@@ -23,7 +32,7 @@
     - Socket.io 이벤트형식
     - …. 등등
 - 개인메시지 : 쪽지기능
-    - DB (/message)
+    - DB message (/message)
         - 보낸 사람
         - 받는 사람
         - 메세지
