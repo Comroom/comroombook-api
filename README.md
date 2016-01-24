@@ -25,7 +25,6 @@
         - { "name" : 이름, "email": 이메일주소, "password" : 비밀번호 }
     - 로그인 (/user/login) POST
 - 동아리 전체 시간표
-    - https://github.com/alamkanak/Android-Week-View
     - DB time 
         - 시작시간
         - 종료시간
