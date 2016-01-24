@@ -7,6 +7,9 @@
 - Node.js
 - express : REST API Framework
 - nedb : Simple Database
+#### 사용방법
+`npm install`
+`npm start`
 
 #### REST API 기능 설명
 - 로그인/회원가입
