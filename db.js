@@ -11,6 +11,6 @@ db.chat = new Datastore({ filename: './data/chat', autoload: true});
 db.message = new Datastore({ filename: './data/message', autoload: true});
 
 //Time Database
-db.time = new Datastore({ filename: './data/message', autoload: true});
+db.time = new Datastore({ filename: './data/time', autoload: true});
 
 module.exports = db;
