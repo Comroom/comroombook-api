@@ -11,20 +11,16 @@ router.post('/login', function(req, res, next){
   var body = req.body;
   var inputs = {
     email : body.email,
-    name : body.name,
     password : body.password
   };
   users.find(inputs, function(err, docs){
     if(err){
-      res.json({
-        error : err,
-        results : null
-      });
     }else{
-      res.json({
-        error : null,
-        results : docs
-      });
+      if(docs.length == 0){
+        res.json({"error" : "없는 이메일이거나 비밀번호가 틀렸습니다"});
+      }else{
+        res.json({"result" : "로그인이 성공했습니다."});
+      }
     }
   });
 });
