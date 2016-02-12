@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var users = db['users'];
+var regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -9,6 +10,12 @@ router.get('/', function(req, res, next) {
 router.post('/login', function(req, res, next){
   var session = req.session;
   var body = req.body;
+
+  if( !body.hasOwnProperty("email") || !body.hasOwnProperty("password") || !regex.test(body.email)){
+    res.json({ "error" : "데이터 입력이 잘못되었습니다."});
+    return;
+  }
+
   var inputs = {
     email : body.email,
     password : body.password
@@ -31,7 +38,7 @@ router.post('/logout', function(req, res, next){
 router.post('/signup', function(req, res, next){
   var body = req.body;
 
-  if( !body.hasOwnProperty("name") || !body.hasOwnProperty("email") || !body.hasOwnProperty("password")){
+  if( !body.hasOwnProperty("name") || !body.hasOwnProperty("email") || !body.hasOwnProperty("password") || !regex.test(body.email)){
     res.json({ "error" : "데이터 입력이 잘못되었습니다."});
     return;
   }
