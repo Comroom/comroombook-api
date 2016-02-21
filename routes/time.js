@@ -31,6 +31,7 @@ router.post('/', function(req, res, next) {
     title : body.title,
     detail : body.detail
   };
+
   var day = body.day;
 
   if( day != "MON" && day != "TUE"
@@ -38,6 +39,14 @@ router.post('/', function(req, res, next) {
   && day != "FRI" && day != "SAT" && day != "SUN"){
     res.json({"error" : "입력한 데이터가 잘못되었습니다."});
      return;
+  }
+
+  var start = body.start;
+  var end = body.end;
+
+  if( !TimeCheck(start) || !TimeCheck(end)){
+    res.json({"error" : "입력한 데이터가 잘못되었습니다."});
+    return;
   }
 
   time.find({ "day" : body.day}, function(err, docs) {
@@ -86,4 +95,23 @@ router.delete('/',function(req, res, next) {
     }
   });
 });
+
+function TimeCheck(time){
+  //13:00 시간 형태 체크
+  var regex = /\d{2}[:]\d{2}/;
+
+  if( typeof(time) != 'string'){
+    return false;
+  }
+  
+  if( time.length != 5){
+    return false;
+  }
+
+  if( !regex.test(time)){
+    return false;
+  }
+
+  return true;
+}
 module.exports = router;
