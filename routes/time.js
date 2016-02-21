@@ -13,11 +13,15 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.post('/time', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-
+router.post('/', function(req, res, next) {
   var body = req.body;
-  var session = req.session;
+
+  if( !body.hasOwnProperty("day") || !body.hasOwnProperty("start")
+      || !body.hasOwnProperty("end") || !body.hasOwnProperty("userid")
+      || !body.hasOwnProperty("title") || !body.hasOwnProperty("detail")){
+    res.json({ "error" : "데이터 입력이 잘못되었습니다."});
+    return;
+  }
 
   var inputs = {
     day : body.day,
@@ -27,13 +31,52 @@ router.post('/time', function(req, res, next) {
     title : body.title,
     detail : body.detail
   };
+  var day = body.day;
 
-  time.insert();
+  if( day != "MON" && day != "TUE"
+  && day != "WED" && day != "THU"
+  && day != "FRI" && day != "SAT" && day != "SUN"){
+    res.json({"error" : "입력한 데이터가 잘못되었습니다."});
+     return;
+  }
+
+  time.find({ "day" : body.day}, function(err, docs) {
+    var check = false;
+    for(var i=0;i<docs.length;i++){
+      //겹치는 경우1
+      if( body.start >= docs[i].start  && body.start < docs[i].end ){
+        check = true;
+        break;
+      }
+      //겹치는 경우2
+      if( body.end > docs[i].start && body.end <= docs[i].end){
+        check = true;
+        break;
+      }
+      //겹치는 경우3
+      if( body.start <= docs[i].start && body.end >= docs[i].end){
+        check = true;
+        break;
+      }
+    }
+
+    if(check == true){
+      res.json({"error" : "시간이 겹칩니다!"});
+    }else{
+      time.insert(inputs,function(err,doc) {
+        if(err){
+
+        }else{
+          res.json({"result" : "시간 입력이 완료되었습니다"});
+        }
+      });
+    }
+  });
 });
 
 router.delete('/',function(req, res, next) {
   var body = req.body;
-  var id = req.time_id;
+  var id = body.time_id;
 
   time.remove({ "_id" : id }, function(err, num) {
     if(err){
