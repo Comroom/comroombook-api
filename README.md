@@ -33,7 +33,7 @@
         - 제목 (title)
         - 세부내용 (detail)
     - 시간표 시간 가져오기 (/time) GET
-        - /time?start=날짜&end=날짜
+    - 시간표 시간 지우기 (/time) DELETE
     - 시간표 시간 입력하기 (/time) POST
         - Appication/Json
         - { "day" : 요일, "start" : 날짜, "end" : 날짜, "userid" : 유저아이디, "title" : 제목, "detail" : 세부내용 }
