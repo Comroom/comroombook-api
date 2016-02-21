@@ -15,28 +15,29 @@
 
 #### REST API 기능 설명
 - 로그인/회원가입
-    - DB 회원정보 user 
+    - DB 회원정보 user
         - 이름
-        - 이메일주소 
-        - 비밀번호 
+        - 이메일주소
+        - 비밀번호
         - 참가 채팅리스트
     - 회원가입 (/user/signup) POST
         - Application/Json
         - { "name" : 이름, "email": 이메일주소, "password" : 비밀번호 }
     - 로그인 (/user/login) POST
 - 동아리 전체 시간표
-    - DB time 
-        - 시작시간
-        - 종료시간
-        - 유저정보
-        - 제목
-        - 세부내용
+    - DB time
+        - 요일 (day)
+        - 시작시간 (start - 형식 HH:MM 30 분단위)
+        - 종료시간 (end - 형식 HH:MM 30분 단위)
+        - 유저정보 (userid)
+        - 제목 (title)
+        - 세부내용 (detail)
     - 시간표 시간 가져오기 (/time) GET
         - /time?start=날짜&end=날짜
     - 시간표 시간 입력하기 (/time) POST
         - Appication/Json
-        - { "start" : 날짜, "end" : 날짜, "userid" : 유저아이디, "title" : 제목, "detail" : 세부내용 }
-- 그룹 채팅방 
+        - { "day" : 요일, "start" : 날짜, "end" : 날짜, "userid" : 유저아이디, "title" : 제목, "detail" : 세부내용 }
+- 그룹 채팅방
     - DB chatlist  
         - 생성된 날짜
         - 처음만든 사람
