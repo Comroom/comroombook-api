@@ -6,7 +6,8 @@ var chat = db['chat'];
 
 router.post('/list', function(req, res, next){
   var body = req.body;
-  var ch = req.params.channel;
+  //req.params.channel은 뭘까?
+  var ch = body.channel;
 
   users.find({ _id : body.userid }, function(err, docs){
     if(docs.length == 0){
