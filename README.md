@@ -40,13 +40,12 @@
 - 그룹 채팅방
     - DB chatlist  
         - 생성된 날짜
-        - 처음만든 사람
         - 이름
         - 인원[]
     - 그룹만들기 (/chat/list) POST
         - Appication/Json
         - { "userid" : 유저아이디, "name" : 그룹네임 }
-    - 그룹정보가져오기 (/chat/list/:groupid) GET
+    - 그룹리스트 가져오기 (/chat/list) GET
     - DB chatmessage
         - 유저아이디
         - 이름
