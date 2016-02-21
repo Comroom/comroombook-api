@@ -21,7 +21,7 @@
         - 비밀번호
         - 참가 채팅리스트
     - 회원가입 (/user/signup) POST
-        - Application/Json
+        - Application/JSON
         - { "name" : 이름, "email": 이메일주소, "password" : 비밀번호 }
     - 로그인 (/user/login) POST
 - 동아리 전체 시간표
@@ -34,8 +34,10 @@
         - 세부내용 (detail)
     - 시간표 시간 가져오기 (/time) GET
     - 시간표 시간 지우기 (/time) DELETE
+       - Application/JSON
+       - { "time_id" : "시간 정보 아이디" }
     - 시간표 시간 입력하기 (/time) POST
-        - Appication/Json
+        - Application/JSON
         - { "day" : 요일, "start" : 날짜, "end" : 날짜, "userid" : 유저아이디, "title" : 제목, "detail" : 세부내용 }
 - 그룹 채팅방
     - DB chatlist  
@@ -43,7 +45,7 @@
         - 이름
         - 인원[]
     - 그룹만들기 (/chat/list) POST
-        - Appication/Json
+        - Application/JSON
         - { "userid" : 유저아이디, "name" : 그룹네임 }
     - 그룹리스트 가져오기 (/chat/list) GET
     - DB chatmessage
@@ -53,7 +55,7 @@
         - 메세지(채팅내용)
         - 날짜
     - 채팅입력하기 (/chat/:groupid) POST
-        - Appication/Json
+        - Application/JSON
         - { "userid" : 유저아이디, "mesaage" : 채팅내용 }
     - 채팅가져오기 (/chat/:groupid) GET
 - 개인메시지 : 쪽지기능
@@ -62,7 +64,7 @@
         - 받는 사람
         - 메세지
     - 메세지 보내기 (/message/:userid) POST
-        - Application/Json
+        - Application/JSON
         - { "message" : 메세지내용 }
     - 메세지 얻어오기 (/message/:userid) GET
 - 그룹 초대하는 기능 ( 카톡 API / 메일초대)
