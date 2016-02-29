@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var message = db['message'];
-var user = db['users'];
 
 var message = db['message'];
 var user = db['users'];
