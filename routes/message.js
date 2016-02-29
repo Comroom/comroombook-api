@@ -4,7 +4,7 @@ var message = db['message'];
 var user = db['users'];
 
 var message = db['message'];
-var user = db['user'];
+var user = db['users'];
 
 router.get('/:user_id',function(req,res,next){
   var user_id = req.params.user_id;
