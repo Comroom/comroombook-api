@@ -31,7 +31,8 @@ router.post('/:userid',function(req,res,next){
   var inputs = {
     sender : body.userid,
     receiver : user_id,
-    message : body.message
+    message : body.message,
+    date : new Date()
   };
   user.find({ _id : body.userid }, function(err, docs){
     if(docs.length == 0){
