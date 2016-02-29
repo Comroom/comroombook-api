@@ -6,6 +6,7 @@ var regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+  //이렇게 find 에서 {}는 전체를 지정, {"password" : 0} 처럼 0지정이면 안보겠다는 의미, 1이면 보겠다는 의미
   users.find({},{"password" : 0},function(err,docs){
     if(err){
 
