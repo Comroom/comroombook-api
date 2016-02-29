@@ -7,8 +7,10 @@ var users = db['users'];
 router.get('/', function(req, res, next) {
   time.find({}, function(err, docs){
     if(err){
-
+      res.status(400);
+      res.json({"error" : "DB 에러"});
     }else{
+      res.status(200);
       res.json(docs);
     }
   });
@@ -18,12 +20,18 @@ router.post('/', function(req, res, next) {
   var body = req.body;
 
   users.find({ _id : body.userid }, function(err, docs){
-    if(docs.length == 0){
+    if(err){
+      res.status(400);
+      res.json({"error" : "DB 에러"});
+    }
+    else if(docs.length == 0){
+      res.status(400);
       res.json({ "error" : "1차 존재하지 않는 아이디입니다." });
     }else{
       if( !body.hasOwnProperty("day") || !body.hasOwnProperty("start")
           || !body.hasOwnProperty("end") || !body.hasOwnProperty("userid")
           || !body.hasOwnProperty("title") || !body.hasOwnProperty("detail")){
+        res.status(400);
         res.json({ "error" : "데이터 입력이 잘못되었습니다."});
         return;
       }
@@ -42,14 +50,16 @@ router.post('/', function(req, res, next) {
       if( day != "MON" && day != "TUE"
       && day != "WED" && day != "THU"
       && day != "FRI" && day != "SAT" && day != "SUN"){
+        res.status(400);
         res.json({"error" : "입력한 요일 데이터가 잘못되었습니다."});
-         return;
+        return;
       }
 
       var start = body.start;
       var end = body.end;
     //시간 입력이 시작시간과 종료시간 둘다 맞게 들어오는게 아니라면 에러
       if( !TimeCheck(start) || !TimeCheck(end)){
+        res.status(400);
         res.json({"error" : "입력한 시간 데이터가 잘못되었습니다."});
         return;
       }
@@ -88,12 +98,15 @@ router.post('/', function(req, res, next) {
         }
 
         if(check == true){
+          res.status(400);
           res.json({"error" : "시간이 겹칩니다!"});
         }else{
           time.insert(inputs,function(err,doc) {
             if(err){
-
+              res.status(400);
+              res.json({"error" : "DB 에러"});
             }else{
+              res.status(200);
               res.json({"result" : "시간 입력이 완료되었습니다"});
             }
           });
@@ -109,23 +122,25 @@ router.delete('/',function(req, res, next) {
 
   time.remove({ "_id" : id }, function(err, num) {
     if(err){
-
+      res.status(400);
+      res.json({"error" : "DB 에러"});
     }else{
+      res.status(200);
       res.json({ "result" : "삭제 성공하였습니다"});
     }
   });
 });
 
-function IdCheck(userId){
-  users.find({ _id : userId }, function(err, docs){
-    if(docs.length == 0){
-      //res.json({ "error" : "존재하지 않는 아이디입니다." });
-      return false;
-    }else{
-      return true;
-    }
-  });
-}
+// function IdCheck(userId){
+//   users.find({ _id : userId }, function(err, docs){
+//     if(docs.length == 0){
+//       //res.json({ "error" : "존재하지 않는 아이디입니다." });
+//       return false;
+//     }else{
+//       return true;
+//     }
+//   });
+// }
 
 function TimeCheck(time){
   //13:00 시간 형태 체크
