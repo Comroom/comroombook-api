@@ -6,6 +6,13 @@ var regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+  users.find({},{"password" : 0},function(err,docs){
+    if(err){
+
+    }else{
+      res.json(docs);
+    }
+  });
 });
 
 //login part
