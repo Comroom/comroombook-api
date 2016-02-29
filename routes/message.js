@@ -31,12 +31,12 @@ router.post('/:userid',function(req,res,next){
   var body = req.body;
   var user_id = req.params.userid;
   var inputs = {
-    sender : body.userid,
+    sender : body.sender,
     receiver : user_id,
     message : body.message,
     date : new Date()
   };
-  user.find({ _id : body.userid }, function(err, docs){
+  user.find({ _id : body.sender }, function(err, docs){
     if(docs.length == 0){
       res.status(400);
       res.json({ "error" : "잘못된 sender 아이디 입니다." });
