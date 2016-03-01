@@ -44,6 +44,7 @@ router.post('/list', function(req, res, next){
           res.status(400);
           res.json({ "error" : "DB 에러입니다." });
         }else{
+          res.status(200);
           res.json({ "result" : "채팅정상입력" });
         }
       });
@@ -71,7 +72,6 @@ router.get('/:group_id', function(req, res, next){
 router.post('/:group_id', function(req, res, next){
   var body = req.body;
   var group_id = req.params.group_id;
-
 });
 
 module.exports = router;
