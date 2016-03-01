@@ -4,8 +4,11 @@ var db = {};
 //Users Database
 db.users = new Datastore({ filename: './data/users', autoload: true });
 
-//Chat Database
-db.chat = new Datastore({ filename: './data/chat', autoload: true});
+//ChatMessage Database
+db.chatmessage = new Datastore({ filename: './data/chatmessage', autoload: true});
+
+//Chat Group Database
+db.chatlist = new Datastore({ filename: './data/chatlist', autoload: true });
 
 //Message Database
 db.message = new Datastore({ filename: './data/message', autoload: true});
