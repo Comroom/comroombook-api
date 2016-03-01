@@ -45,6 +45,7 @@ router.post('/list', function(req, res, next){
           res.status(400);
           res.json({ "error" : "DB 에러입니다." });
         }else{
+          res.status(200);
           res.json({ "result" : "그룹정상등록" });
         }
       });
