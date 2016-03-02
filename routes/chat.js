@@ -62,7 +62,7 @@ router.get('/:group_id', function(req, res, next){
       res.json({ "error" : "DB 에러입니다." });
     }else if(docs.length == 0){
       res.status(400);
-      res.json({ "error" : "해당 그룹이 없습니다." });
+      res.json({ "error" : "해당 그룹 메세지가 없습니다." });
     }else{
       res.status(200);
       res.json(docs);
