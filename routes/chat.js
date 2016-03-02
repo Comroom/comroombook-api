@@ -37,7 +37,7 @@ router.post('/list', function(req, res, next){
         //body.name 쓸경우 입력한 name이 들어가게 되고
         //docs[0].name을 쓰면 users 디비에 있는 항목에서 이름을 쓰게 됨.
         name : body.name,
-        //group : body.
+        member : body.member,
         date : new Date()
       };
       chatlist.insert(inputs, function(err, docs){
