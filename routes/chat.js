@@ -102,4 +102,89 @@ router.post('/:group_id', function(req, res, next){
   });
 });
 
+router.get('/member/:group_id',function(req,res,next) {
+  var group_id = req.params.group_id;
+  chatlist.findOne({ _id : group_id },function(err,doc) {
+    if(err){
+      res.status(400);
+      res.json({ "error" : "DB 에러입니다." });
+    }else{
+      res.status(200);
+      res.json(doc);
+    }
+  });
+});
+
+router.post('/member/:group_id',function(req,res,next){
+  var body = req.body;
+  var group_id = req.params.group_id;
+  var user_id = body.userid;
+
+  users.find({ _id : body.userid }, function(err, docs){
+    if(err){
+      res.status(400);
+      res.json({ "error" : "DB 에러입니다." });
+    }else if(docs.length == 0){
+      res.json({ "error" : "존재하지 않는 아이디입니다." });
+    }else{
+      chatlist.findOne({ _id : group_id }, function(err, doc){
+        if(err){
+          res.status(400);
+          res.json({ "error" : "DB 에러입니다." });
+        }else{
+          doc.member.push(user_id);
+
+          chatlist.update({ _id : group_id }, doc ,{ }, function(err,numReplaced){
+            if(err){
+              res.status(400);
+              res.json({ "error" : "DB 에러입니다." });
+            }else{
+              res.status(200);
+              res.json({ "result" : "채팅방 입장하였습니다", "user_id" : user_id });
+            }
+          });
+        }
+      });
+    }
+  });
+});
+
+router.delete('/member/:group_id',function(req,res,next){
+  var body = req.body;
+  var group_id = req.params.group_id;
+  var user_id = body.userid;
+
+  users.find({ _id : body.userid }, function(err, docs){
+    if(err){
+      res.status(400);
+      res.json({ "error" : "DB 에러입니다." });
+    }else if(docs.length == 0){
+      res.json({ "error" : "존재하지 않는 아이디입니다." });
+    }else{
+      chatlist.findOne({ _id : group_id }, function(err, doc){
+        if(err){
+          res.status(400);
+          res.json({ "error" : "DB 에러입니다." });
+        }else{
+          for(var i=0;i<doc.member.length;i++){
+            if(doc.member[i] == user_id){
+              doc.member.splice(i,1);
+              break;
+            }
+          }
+          chatlist.update({ _id : group_id }, doc ,{ }, function(err,numReplaced){
+            if(err){
+              res.status(400);
+              res.json({ "error" : "DB 에러입니다." });
+            }else{
+              res.status(200);
+              res.json({ "result" : "채팅방 퇴장하였습니다"});
+            }
+          });
+        }
+      });
+    }
+  });
+});
+
 module.exports = router;
