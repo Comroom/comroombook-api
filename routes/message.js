@@ -9,7 +9,7 @@ router.get('/:user_id',function(req,res,next){
 //findOne 이 하나를 지정해서 찾는다는??
   user.findOne({ "_id" : user_id },function(err,doc) {
     if(err){
-      res.status(400);
+      res.status(500);
       res.json({"error" : "DB 에러"});
 
     }else{
@@ -37,13 +37,21 @@ router.post('/:userid',function(req,res,next){
     date : new Date()
   };
   user.find({ _id : body.sender }, function(err, docs){
-    if(docs.length == 0){
+    if(err){
+      res.status(500);
+      res.json({"error" : "DB 에러"});
+    }
+    else if(docs.length == 0){
       res.status(400);
       res.json({ "error" : "잘못된 sender 아이디 입니다." });
 
     }else{
       user.find({ _id : user_id }, function(err, docs){
-        if(docs.length == 0){
+        if(err){
+          res.status(500);
+          res.json({"error" : "DB 에러"});
+        }
+        else if(docs.length == 0){
           res.status(400);
           res.json({ "error" : "잘못된 receiver 아이디 입니다." });
 
@@ -54,7 +62,7 @@ router.post('/:userid',function(req,res,next){
           }else{
             message.insert(inputs, function(err, docs){
               if(err){
-                res.status(400);
+                res.status(500);
                 res.json({ "error" : "DB 에러" });
 
               }else{
