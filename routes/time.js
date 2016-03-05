@@ -7,7 +7,7 @@ var users = db['users'];
 router.get('/', function(req, res, next) {
   time.find({}, function(err, docs){
     if(err){
-      res.status(400);
+      res.status(500);
       res.json({"error" : "DB 에러"});
     }else{
       res.status(200);
@@ -21,7 +21,7 @@ router.post('/', function(req, res, next) {
 
   users.find({ _id : body.userid }, function(err, docs){
     if(err){
-      res.status(400);
+      res.status(500);
       res.json({"error" : "DB 에러"});
     }
     else if(docs.length == 0){
@@ -122,7 +122,7 @@ router.delete('/',function(req, res, next) {
 
   time.remove({ "_id" : id }, function(err, num) {
     if(err){
-      res.status(400);
+      res.status(500);
       res.json({"error" : "DB 에러"});
     }else{
       res.status(200);
