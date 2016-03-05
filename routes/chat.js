@@ -8,7 +8,7 @@ var chatlist = db['chatlist'];
 router.get('/list', function(req, res, next){
   chatlist.find({}, function(err, docs){
     if(err){
-      res.status(400);
+      res.status(500);
       res.json({ "error" : "DB 에러입니다." });
     }else if(docs.length == 0){
       res.status(400);
@@ -22,14 +22,13 @@ router.get('/list', function(req, res, next){
 
 router.post('/list', function(req, res, next){
   var body = req.body;
-  //req.params.channel은 뭘까?
-  var ch = body.channel;
 
   users.find({ _id : body.userid }, function(err, docs){
     if(err){
-      res.status(400);
+      res.status(500);
       res.json({ "error" : "DB 에러입니다." });
     }else if(docs.length == 0){
+      res.json(400);
       res.json({ "error" : "존재하지 않는 아이디입니다." });
     }else{
       var inputs = {
@@ -42,7 +41,7 @@ router.post('/list', function(req, res, next){
       };
       chatlist.insert(inputs, function(err, docs){
         if(err){
-          res.status(400);
+          res.status(500);
           res.json({ "error" : "DB 에러입니다." });
         }else{
           res.status(200);
@@ -58,7 +57,7 @@ router.get('/:group_id', function(req, res, next){
 
   chatmessage.find({ groupid : group_id }, function(err, docs){
     if(err){
-      res.status(400);
+      res.status(500);
       res.json({ "error" : "DB 에러입니다." });
     }else if(docs.length == 0){
       res.status(400);
@@ -76,7 +75,7 @@ router.post('/:group_id', function(req, res, next){
 
   chatlist.find({ _id : group_id }, function(err, docs){
     if(err){
-      res.status(400);
+      res.status(500);
       res.json({ "error" : "DB 에러입니다." });
     }else if(docs.length == 0){
       res.status(400);
@@ -91,7 +90,7 @@ router.post('/:group_id', function(req, res, next){
       };
       chatmessage.insert(inputs, function(err, docs){
         if(err){
-          res.status(400);
+          res.status(500);
           res.json({ "error" : "DB 에러입니다." });
         }else{
           res.status(200);
@@ -106,7 +105,7 @@ router.get('/member/:group_id',function(req,res,next) {
   var group_id = req.params.group_id;
   chatlist.findOne({ _id : group_id },function(err,doc) {
     if(err){
-      res.status(400);
+      res.status(500);
       res.json({ "error" : "DB 에러입니다." });
     }else{
       res.status(200);
@@ -122,21 +121,22 @@ router.post('/member/:group_id',function(req,res,next){
 
   users.find({ _id : body.userid }, function(err, docs){
     if(err){
-      res.status(400);
+      res.status(500);
       res.json({ "error" : "DB 에러입니다." });
     }else if(docs.length == 0){
+      res.status(400);
       res.json({ "error" : "존재하지 않는 아이디입니다." });
     }else{
       chatlist.findOne({ _id : group_id }, function(err, doc){
         if(err){
-          res.status(400);
+          res.status(500);
           res.json({ "error" : "DB 에러입니다." });
         }else{
           doc.member.push(user_id);
 
           chatlist.update({ _id : group_id }, doc ,{ }, function(err,numReplaced){
             if(err){
-              res.status(400);
+              res.status(500);
               res.json({ "error" : "DB 에러입니다." });
             }else{
               res.status(200);
@@ -156,14 +156,15 @@ router.delete('/member/:group_id',function(req,res,next){
 
   users.find({ _id : body.userid }, function(err, docs){
     if(err){
-      res.status(400);
+      res.status(500);
       res.json({ "error" : "DB 에러입니다." });
     }else if(docs.length == 0){
+      res.status(400);
       res.json({ "error" : "존재하지 않는 아이디입니다." });
     }else{
       chatlist.findOne({ _id : group_id }, function(err, doc){
         if(err){
-          res.status(400);
+          res.status(500);
           res.json({ "error" : "DB 에러입니다." });
         }else{
           for(var i=0;i<doc.member.length;i++){
@@ -174,7 +175,7 @@ router.delete('/member/:group_id',function(req,res,next){
           }
           chatlist.update({ _id : group_id }, doc ,{ }, function(err,numReplaced){
             if(err){
-              res.status(400);
+              res.status(500);
               res.json({ "error" : "DB 에러입니다." });
             }else{
               res.status(200);
