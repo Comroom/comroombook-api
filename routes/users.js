@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
   //이렇게 find 에서 {}는 전체를 지정, {"password" : 0} 처럼 0지정이면 안보겠다는 의미, 1이면 보겠다는 의미
   users.find({},{"password" : 0},function(err,docs){
     if(err){
-      res.status(400);
+      res.status(500);
       res.json({"error" : "DB 에러"});
     }else{
       res.status(200);
@@ -36,7 +36,7 @@ router.post('/login', function(req, res, next){
   };
   users.find(inputs, function(err, docs){
     if(err){
-      res.status(400);
+      res.status(500);
       res.json({"error" : "DB 에러"});
     }else{
       if(docs.length == 0){
@@ -97,7 +97,7 @@ router.post('/signup', function(req, res, next){
     //디비에서 찾다가
     if(err){
       //그 와중에 에러 나면 여기
-      res.status(400);
+      res.status(500);
       res.json({"error" : "DB 에러"});
     }else{
       //에러 안나면 여기
@@ -111,7 +111,7 @@ router.post('/signup', function(req, res, next){
 
         users.insert(user,function(err,docs){
           if(err){
-            res.status(400);
+            res.status(500);
             res.json({"error" : "DB 에러"});
           }else{
             res.status(200);
