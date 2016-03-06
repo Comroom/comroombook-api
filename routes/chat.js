@@ -5,6 +5,7 @@ var users = db['users'];
 var chatmessage = db['chatmessage'];
 var chatlist = db['chatlist'];
 
+//그룹 목록을 받음
 router.get('/list', function(req, res, next){
   chatlist.find({}, function(err, docs){
     if(err){
@@ -19,7 +20,7 @@ router.get('/list', function(req, res, next){
     }
   });
 });
-
+//그룹을 만듬
 router.post('/list', function(req, res, next){
   var body = req.body;
 
@@ -51,7 +52,7 @@ router.post('/list', function(req, res, next){
     }
   });
 });
-
+//해당 그룹아이디의 메세지 목록을 받음
 router.get('/:group_id', function(req, res, next){
   var group_id = req.params.group_id;
 
@@ -68,52 +69,76 @@ router.get('/:group_id', function(req, res, next){
     }
   });
 });
-
+//해당 그룹아이디로 메세지를 입력함
 router.post('/:group_id', function(req, res, next){
   var body = req.body;
   var group_id = req.params.group_id;
 
-  chatlist.find({ _id : group_id }, function(err, docs){
+  users.find({ _id : body.userid }, function(err, docs){
     if(err){
       res.status(500);
       res.json({ "error" : "DB 에러입니다." });
     }else if(docs.length == 0){
       res.status(400);
-      res.json({ "error" : "메세지를 입력할 해당 그룹이 없습니다." });
+      res.json({ "error" : "해당 아이디가 없습니다." });
     }else{
-      var inputs = {
-        userid : body.userid,
-        name : docs[0].name,
-        groupid : group_id,
-        message : body.message,
-        date : new Date()
-      };
-      chatmessage.insert(inputs, function(err, docs){
+      chatlist.find({ _id : group_id }, function(err, docs){
         if(err){
           res.status(500);
           res.json({ "error" : "DB 에러입니다." });
+        }else if(docs.length == 0){
+          res.status(400);
+          res.json({ "error" : "메세지를 입력할 해당 그룹이 없습니다." });
         }else{
-          res.status(200);
-          res.json({ "result" : "그룹에 메세지 정상 입력." });
+          // chatlist.find({ member : body.userid }, function(err, docs){
+          //   if(err){
+          //     res.status(500);
+          //     res.json({ "error" : "DB 에러입니다." });
+          //   }else if(docs.length == 0){
+          //     res.status(400);
+          //     res.json({ "error" : "해당 아이디가 이 그룹에 없습니다." });
+          //   }else{
+          var inputs = {
+            userid : body.userid,
+            name : docs[0].name,
+            groupid : group_id,
+            message : body.message,
+            date : new Date()
+          };
+          chatmessage.insert(inputs, function(err, docs){
+            if(err){
+              res.status(500);
+              res.json({ "error" : "DB 에러입니다." });
+            }else{
+              res.status(200);
+              res.json({ "result" : "그룹에 메세지 정상 입력." });
+            }
+          });
+          //       }
+          //     });
         }
       });
     }
   });
 });
-
+//해당 그룹아이디의 그룹의 구성원 목록을 받음
 router.get('/member/:group_id',function(req,res,next) {
   var group_id = req.params.group_id;
-  chatlist.findOne({ _id : group_id },function(err,doc) {
+  //이 그룹아이디를 _id로 하는 것을 chatlist DB에서 하나만 찾음
+  chatlist.find({ _id : group_id },function(err,docs) {
     if(err){
       res.status(500);
       res.json({ "error" : "DB 에러입니다." });
+    }else if(docs.length == 0){
+      res.status(400);
+      res.json({ "error" : "해당 그룹의 구성원이 없습니다." });
     }else{
       res.status(200);
-      res.json(doc);
+      res.json(docs);
     }
   });
 });
-
+//해당 그룹 아이디의 그룹에 구성원을 추가함
 router.post('/member/:group_id',function(req,res,next){
   var body = req.body;
   var group_id = req.params.group_id;
@@ -131,7 +156,14 @@ router.post('/member/:group_id',function(req,res,next){
         if(err){
           res.status(500);
           res.json({ "error" : "DB 에러입니다." });
-        }else{
+        }
+        // else if(doc.length == 0){
+        //   res.status(400);
+        //   res.json({ "error" : "해당 그룹이 없습니다." });
+        // }
+        else{
+          //console.log(doc.length);
+          //위에서 findOne 이 아닌 find 하면 푸시에서 오류남 왜?
           doc.member.push(user_id);
 
           chatlist.update({ _id : group_id }, doc ,{ }, function(err,numReplaced){
@@ -148,7 +180,7 @@ router.post('/member/:group_id',function(req,res,next){
     }
   });
 });
-
+//해당 그룹아이디의 그룹에서 구성원을 지움
 router.delete('/member/:group_id',function(req,res,next){
   var body = req.body;
   var group_id = req.params.group_id;
@@ -173,6 +205,7 @@ router.delete('/member/:group_id',function(req,res,next){
               break;
             }
           }
+          //업데이트가 아니라 계속 추가된느듯??
           chatlist.update({ _id : group_id }, doc ,{ }, function(err,numReplaced){
             if(err){
               res.status(500);

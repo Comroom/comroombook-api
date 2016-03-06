@@ -6,7 +6,7 @@ var user = db['users'];
 
 router.get('/:user_id',function(req,res,next){
   var user_id = req.params.user_id;
-//findOne 이 하나를 지정해서 찾는다는??
+//findOne 이 하나를 지정해서 찾는다
   user.findOne({ "_id" : user_id },function(err,doc) {
     if(err){
       res.status(500);
