@@ -46,7 +46,7 @@ router.post('/login', function(req, res, next){
       //   res.json({ "result" : "이미 로그인 되어 있습니다."});
       }else{
         res.status(200);
-        res.json({"result" : "로그인이 성공했습니다."});
+        res.json({"result" : "로그인이 성공했습니다.","user_id" : docs[0]._id, "name" : docs[0].name, "email" : docs[0].email});
         // loginOut.insert(inputs);
       }
     }
