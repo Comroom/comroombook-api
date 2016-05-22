@@ -32,21 +32,27 @@ router.post('/list', function(req, res, next){
       res.json(400);
       res.json({ "error" : "존재하지 않는 아이디입니다." });
     }else{
+      var member = [];
+      try {
+        member = JSON.parse(req.body.member);
+      } catch (e) {
+        member = [];
+      }
       var inputs = {
         userid : body.userid,
         //body.name 쓸경우 입력한 name이 들어가게 되고
         //docs[0].name을 쓰면 users 디비에 있는 항목에서 이름을 쓰게 됨.
         name : body.name,
-        member : body.member,
+        member : member,
         date : new Date()
       };
-      chatlist.insert(inputs, function(err, docs){
+      chatlist.insert(inputs, function(err, doc){
         if(err){
           res.status(500);
           res.json({ "error" : "DB 에러입니다." });
         }else{
           res.status(200);
-          res.json({ "result" : "그룹정상등록" });
+          res.json({ "result" : "그룹정상등록" , "data" : doc });
         }
       });
     }
